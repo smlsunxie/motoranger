@@ -1,0 +1,79 @@
+services:
+  app:
+    build: .
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    environment: &app-env
+      APP_NAME: Motoranger
+      APP_ENV: production
+      APP_KEY: ${APP_KEY}
+      APP_URL: ${APP_URL:-http://localhost:8000}
+      APP_LOCALE: zh_TW
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_DATABASE: motoranger
+      DB_USERNAME: motoranger
+      DB_PASSWORD: ${DB_PASSWORD:-secret}
+      CACHE_STORE: redis
+      SESSION_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      REDIS_HOST: redis
+    volumes:
+      - storage-data:/app/storage/app
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  queue:
+    build: .
+    command: php artisan queue:work --tries=3 --timeout=90
+    environment:
+      <<: *app-env
+      AUTO_MIGRATE: "false"
+    volumes:
+      - storage-data:/app/storage/app
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  scheduler:
+    build: .
+    command: php artisan schedule:work
+    environment:
+      <<: *app-env
+      AUTO_MIGRATE: "false"
+    volumes:
+      - storage-data:/app/storage/app
+    depends_on:
+      - app
+    restart: unless-stopped
+
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: motoranger
+      MYSQL_USER: motoranger
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootsecret}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+volumes:
+  storage-data:
+  mysql-data:
+  redis-data:

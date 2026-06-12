@@ -1,17 +1,17 @@
 [submodule "web-app/font-awesome"]
-	path = web-app/font-awesome
+	path = legacy/web-app/font-awesome
 	url = git://github.com/FortAwesome/Font-Awesome.git
 
 [submodule "web-app/jquery-fileupload"]
-	path = web-app/jquery-fileupload
+	path = legacy/web-app/jquery-fileupload
 	url = git@github.com:blueimp/jQuery-File-Upload.git
 [submodule "web-app/fancybox"]
-	path = web-app/fancybox
+	path = legacy/web-app/fancybox
 	url = git://github.com/fancyapps/fancyBox.git
 [submodule "web-app/codemirror"]
-	path = web-app/codemirror
+	path = legacy/web-app/codemirror
 	url = git://github.com/marijnh/CodeMirror.git
 
 [submodule "web-app/select2"]
-	path = web-app/select2
+	path = legacy/web-app/select2
 	url = https://github.com/ivaynberg/select2.git
