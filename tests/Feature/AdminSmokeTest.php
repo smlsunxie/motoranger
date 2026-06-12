@@ -89,5 +89,14 @@ class AdminSmokeTest extends TestCase
         $this->get("/q/{$order->id}")->assertForbidden();
         $signed = \Illuminate\Support\Facades\URL::signedRoute('quote.public', ['repairOrder' => $order], absolute: false);
         $this->get($signed)->assertOk()->assertSee($order->order_no);
+
+        // 客人於公開頁留下備注
+        $noteAction = \Illuminate\Support\Facades\URL::signedRoute('quote.public.note', ['repairOrder' => $order], absolute: false);
+        $this->post("/q/{$order->id}/notes", ['content' => '未簽名不可留言'])->assertForbidden();
+        $this->post($noteAction, ['content' => '請順便檢查後輪胎'])->assertRedirect();
+
+        $note = $order->notes()->first();
+        $this->assertSame('請順便檢查後輪胎', $note->content);
+        $this->assertTrue($note->author->is($customer));
     }
 }

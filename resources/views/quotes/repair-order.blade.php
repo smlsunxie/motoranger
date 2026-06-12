@@ -34,7 +34,18 @@
         position: fixed; top: 16px; right: 16px; padding: 10px 20px; font-size: 14px;
         background: #f59e0b; color: #fff; border: none; border-radius: 8px; cursor: pointer;
     }
-    @media print { .print-btn { display: none; } body { padding: 0; } }
+    .photos, .notes { margin-top: 28px; }
+    .photos h2, .notes h2 { font-size: 15px; border-left: 4px solid #f59e0b; padding-left: 8px; margin-bottom: 10px; }
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+    .photo-grid img { width: 100%; border-radius: 6px; }
+    .photo-grid figcaption { font-size: 11px; color: #666; margin-top: 2px; }
+    .note { border: 1px solid #e5e5e5; border-radius: 8px; padding: 8px 10px; margin-bottom: 8px; }
+    .note-meta { font-size: 11px; color: #888; margin-bottom: 2px; }
+    .notes textarea { width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 8px; font: inherit; }
+    .notes button { margin-top: 8px; padding: 8px 24px; background: #f59e0b; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+    .flash { background: #ecfdf5; color: #047857; padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; }
+    .error { color: #dc2626; font-size: 12px; margin-top: 4px; }
+    @media print { .print-btn, .notes, .photos { display: none; } body { padding: 0; } }
 </style>
 </head>
 <body>
@@ -120,6 +131,42 @@
     </div>
     @endif
 </div>
+
+@if($public ?? false)
+    @if($order->photos->isNotEmpty())
+    <div class="photos">
+        <h2>維修照片</h2>
+        <div class="photo-grid">
+            @foreach($order->photos as $photo)
+            <figure>
+                <img src="{{ $photo->url }}" alt="{{ $photo->caption }}">
+                @if($photo->caption)<figcaption>{{ $photo->caption }}</figcaption>@endif
+            </figure>
+            @endforeach
+        </div>
+    </div>
+    @endif
+
+    <div class="notes">
+        <h2>留言備注</h2>
+        @if(session('note_saved'))
+        <div class="flash">✓ 已收到您的備注,謝謝!</div>
+        @endif
+        @foreach($order->notes as $note)
+        <div class="note">
+            <div class="note-meta">{{ $note->author_name }} · {{ $note->created_at->format('Y-m-d H:i') }}</div>
+            <div>{{ $note->content }}</div>
+        </div>
+        @endforeach
+        <form method="post" action="{{ $noteAction }}">
+            @csrf
+            <textarea name="content" rows="3" maxlength="1000" required
+                placeholder="有任何問題或需求,歡迎留言給我們"></textarea>
+            @error('content')<div class="error">{{ $message }}</div>@enderror
+            <button type="submit">送出備注</button>
+        </form>
+    </div>
+@endif
 
 </body>
 </html>

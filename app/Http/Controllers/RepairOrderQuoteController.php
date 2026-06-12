@@ -29,12 +29,32 @@ class RepairOrderQuoteController extends Controller
     {
         abort_unless(request()->hasValidRelativeSignature(), 403);
 
-        $repairOrder->load(['customer', 'vehicle.brand', 'items', 'store', 'user']);
+        $repairOrder->load(['customer', 'vehicle.brand', 'items', 'store', 'user', 'photos', 'notes.author']);
 
         return view('quotes.repair-order', [
             'order' => $repairOrder,
             'qrcode' => null,
+            'public' => true,
+            'noteAction' => URL::signedRoute('quote.public.note', ['repairOrder' => $repairOrder], absolute: false),
         ]);
+    }
+
+    /** 客人於公開頁留下備注 */
+    public function addNote(RepairOrder $repairOrder)
+    {
+        abort_unless(request()->hasValidRelativeSignature(), 403);
+
+        $data = request()->validate([
+            'content' => ['required', 'string', 'max:1000'],
+        ]);
+
+        $repairOrder->notes()->create([
+            'content' => $data['content'],
+            'author_type' => $repairOrder->customer->getMorphClass(),
+            'author_id' => $repairOrder->customer_id,
+        ]);
+
+        return back()->with('note_saved', true);
     }
 
     protected function qrcodeSvg(string $content): string

@@ -15,3 +15,7 @@ Route::get('/repair-orders/{repairOrder}/quote', RepairOrderQuoteController::cla
 // 客人掃 QR Code 的公開單據頁(簽名網址)
 Route::get('/q/{repairOrder}', [RepairOrderQuoteController::class, 'publicShow'])
     ->name('quote.public');
+
+// 客人於公開頁留下備注(沿用同一組簽名)
+Route::post('/q/{repairOrder}/notes', [RepairOrderQuoteController::class, 'addNote'])
+    ->name('quote.public.note');
