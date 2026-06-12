@@ -19,6 +19,8 @@ class NotesRelationManager extends RelationManager
 
     protected static ?string $title = '備注';
 
+    protected static ?string $modelLabel = '備注';
+
     public function form(Schema $schema): Schema
     {
         return $schema

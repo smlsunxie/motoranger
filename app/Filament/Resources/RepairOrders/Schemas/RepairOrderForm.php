@@ -118,7 +118,7 @@ class RepairOrderForm
                                             $set('type', RepairItemType::Part->value);
                                         }
                                     })
-                                    ->columnSpan(3),
+                                    ->columnSpan(2),
                                 Select::make('type')
                                     ->label('類型')
                                     ->options(RepairItemType::class)
@@ -142,11 +142,12 @@ class RepairOrderForm
                                     ->default(0)
                                     ->live(onBlur: true)
                                     ->columnSpan(2),
+
                                 TextInput::make('cost')
                                     ->label('成本')
                                     ->numeric()
                                     ->default(0)
-                                    ->columnSpan(1),
+                                    ->columnSpan(2),
                             ]),
                     ]),
 

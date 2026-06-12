@@ -20,6 +20,8 @@ class PaymentsRelationManager extends RelationManager
 
     protected static ?string $title = '收款記錄';
 
+    protected static ?string $modelLabel = '收款';
+
     public function form(Schema $schema): Schema
     {
         return $schema

@@ -1,0 +1,247 @@
+<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="utf-8"><title>Moto Ranger 操作說明書</title><style>
+body { font-family: "PingFang TC", "Noto Sans TC", sans-serif; font-size: 13px; line-height: 1.75; color: #1e293b; max-width: 960px; margin: 0 auto; padding: 24px; }
+h1 { font-size: 26px; border-bottom: 3px solid #f59e0b; padding-bottom: 8px; margin-top: 0; page-break-before: always; }
+h1:first-of-type { page-break-before: avoid; }
+h2 { font-size: 19px; color: #b45309; margin-top: 28px; }
+img { max-width: 100%; border: 1px solid #e2e8f0; border-radius: 8px; margin: 10px 0; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; }
+th, td { border: 1px solid #cbd5e1; padding: 6px 10px; text-align: left; }
+th { background: #fef3c7; }
+blockquote { border-left: 4px solid #f59e0b; background: #fffbeb; margin: 12px 0; padding: 8px 14px; color: #92400e; }
+code { background: #f1f5f9; padding: 1px 5px; border-radius: 4px; }
+a { color: #b45309; }
+.cover { text-align: center; padding-top: 200px; page-break-after: always; }
+.cover h1 { border: none; font-size: 40px; page-break-before: avoid; }
+.cover p { color: #64748b; font-size: 15px; }
+</style></head><body>
+<div class="cover"><h1>Moto Ranger<br>操作說明書</h1><p>汽機車維修紀錄系統 — 後台管理與前台網站</p><p>https://main.motoranger.net</p><p>2026-06-12</p></div>
+<h1 id="入門">01 入門</h1>
+<h2 id="登入系統">1.1 登入系統</h2>
+<p>開啟瀏覽器進入 <strong><a href="https://main.motoranger.net/admin"
+class="uri">https://main.motoranger.net/admin</a></strong>(本地開發為
+<code>http://127.0.0.1:8088/admin</code>),輸入 E-Mail
+與密碼後按「登入」。</p>
+<figure>
+<img src="01-getting-started/images/login.png" alt="登入頁" />
+<figcaption aria-hidden="true">登入頁</figcaption>
+</figure>
+<blockquote>
+<p>帳號由管理員在「員工」功能中建立;忘記密碼請聯絡系統管理員重設。</p>
+</blockquote>
+<h2 id="介面導覽">1.2 介面導覽</h2>
+<p>登入後進入系統主畫面:</p>
+<figure>
+<img src="01-getting-started/images/dashboard.png" alt="系統主畫面" />
+<figcaption aria-hidden="true">系統主畫面</figcaption>
+</figure>
+<ul>
+<li><strong>左側選單</strong>:維修單、零件、客戶、車輛、廠牌、店家、店家支出、員工,點擊即切換功能。</li>
+<li><strong>頂部搜尋(全域搜尋)</strong>:可直接輸入
+<strong>客戶姓名、手機、車牌、維修單號</strong>,快速跳到對應資料。</li>
+<li><strong>右上角頭像</strong>:登出系統。</li>
+<li>側欄可收合,手機與平板亦可操作(響應式介面)。</li>
+</ul>
+<h2 id="角色權限">1.3 角色權限</h2>
+<table>
+<thead>
+<tr>
+<th>角色</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>管理員 (admin)</td>
+<td>全部功能,含員工帳號管理</td>
+</tr>
+<tr>
+<td>一般員工 (user)</td>
+<td>日常維修、客戶、零件作業</td>
+</tr>
+</tbody>
+</table>
+<h1 id="維修單">02 維修單</h1>
+<p>維修單是系統核心:從估價、維修到收款交車,都在同一張單上完成。</p>
+<h2 id="維修單列表">2.1 維修單列表</h2>
+<p>左側選單點「<strong>維修單</strong>」:</p>
+<figure>
+<img src="02-repair-orders/images/list.png" alt="維修單列表" />
+<figcaption aria-hidden="true">維修單列表</figcaption>
+</figure>
+<ul>
+<li>欄位:單號、進廠日期、客戶、車牌、狀態、應收、已收、<strong>未收</strong>(紅字代表尚有未收款)。</li>
+<li>上方可依<strong>狀態</strong>(估價中/已確認/維修中/已完工/已交車/已取消)與<strong>店家</strong>篩選。</li>
+<li>搜尋框可輸入單號、客戶姓名、車牌。</li>
+<li>每列右側:「<strong>估價單</strong>」直接開啟列印頁、「編輯」進入維修單。</li>
+</ul>
+<h2 id="建立維修單">2.2 建立維修單</h2>
+<p>點右上「<strong>新增 維修單</strong>」:</p>
+<figure>
+<img src="02-repair-orders/images/create-top.png" alt="建立維修單" />
+<figcaption aria-hidden="true">建立維修單</figcaption>
+</figure>
+<ol type="1">
+<li><strong>客戶</strong>:輸入姓名或手機搜尋;新客戶可直接按「+」快速建立(姓名、手機、地址)。</li>
+<li><strong>車輛</strong>:選定客戶後,下拉只會列出該客戶的車;新車同樣可按「+」快速建立(車牌、廠牌、車型),選擇車輛後會自動帶入該車最新里程。</li>
+<li><strong>承辦技師</strong>:預設為目前登入者。</li>
+<li><strong>狀態</strong>:新單預設「估價中」,可隨進度改為已確認 → 維修中
+→ 已完工 → 已交車。</li>
+<li><strong>進廠日期 / 進廠里程 /
+維修描述</strong>:記錄客戶反映的問題。</li>
+</ol>
+<h2 id="維修項目與金額">2.3 維修項目與金額</h2>
+<figure>
+<img src="02-repair-orders/images/items-money.png"
+alt="維修項目與金額" />
+<figcaption aria-hidden="true">維修項目與金額</figcaption>
+</figure>
+<ul>
+<li>在「維修項目」按「<strong>新增項目</strong>」逐列輸入;選擇<strong>零件</strong>會自動帶入品名、售價與成本,<strong>工資</strong>類型則直接輸入名稱與金額。</li>
+<li>數量、單價修改時,下方「小計 /
+應收金額」<strong>即時計算</strong>;「折扣」欄輸入折讓金額。</li>
+<li>儲存後系統自動回寫單頭的小計、應收與已收。</li>
+</ul>
+<h2 id="現場照片拍照">2.4 現場照片(拍照)</h2>
+<p>「現場照片」區按「<strong>新增照片</strong>」即可上傳;手機操作時可直接喚起<strong>相機拍照</strong>。照片支援裁切編輯,並跟著維修單保存,客人掃
+QR Code 時也能看到。</p>
+<h2 id="收款與備注">2.5 收款與備注</h2>
+<p>進入維修單「編輯」頁面,捲動至底部:</p>
+<figure>
+<img src="02-repair-orders/images/relation-managers.png"
+alt="收款與備注" />
+<figcaption aria-hidden="true">收款與備注</figcaption>
+</figure>
+<ul>
+<li><strong>收款記錄</strong>:按「新增收款」輸入金額、方式(現金/轉帳/刷卡)、日期;未收金額自動更新。</li>
+<li><strong>備注</strong>:員工的內部備注、以及<strong>客人掃碼留言</strong>都會顯示在這裡,含作者與時間。</li>
+</ul>
+<h1 id="估價單與-qr-code">03 估價單與 QR Code</h1>
+<h2 id="列印估價單">3.1 列印估價單</h2>
+<p>維修單列表每列的「<strong>估價單</strong>」按鈕會在新分頁開啟列印版面:</p>
+<figure>
+<img src="03-quotes/images/print.png" alt="估價單列印頁" />
+<figcaption aria-hidden="true">估價單列印頁</figcaption>
+</figure>
+<ul>
+<li>內容:店家抬頭(店名/地址/電話/統編)、單號、日期、客戶與車輛資訊、維修項目明細、小計/折扣/合計/已收/未收、客戶簽名與經手人欄位。</li>
+<li>右上角「🖨
+列印」即叫出瀏覽器列印(成本欄<strong>不會</strong>出現在估價單上)。</li>
+<li>左下角附 <strong>QR
+Code</strong>,客人掃描即可在手機上查看這張單據。</li>
+</ul>
+<h2 id="客人掃碼查詢公開頁">3.2 客人掃碼查詢(公開頁)</h2>
+<p>客人掃 QR Code
+後開啟的頁面(帶簽名保護的專屬連結,他人無法猜測網址):</p>
+<figure>
+<img src="03-quotes/images/public.png" alt="客人掃碼頁" />
+<figcaption aria-hidden="true">客人掃碼頁</figcaption>
+</figure>
+<ul>
+<li>客人可查看:維修明細、金額、<strong>維修照片</strong>。</li>
+<li><strong>留言備注</strong>:客人可直接在頁面下方留言(例如「請順便檢查後輪胎」),留言會出現在該維修單的「備注」中,作者顯示為該客戶。</li>
+<li>此頁為唯讀,客人無法修改單據內容。</li>
+</ul>
+<h1 id="客戶與車輛">04 客戶與車輛</h1>
+<h2 id="客戶列表與搜尋">4.1 客戶列表與搜尋</h2>
+<p>左側選單點「<strong>客戶</strong>」:</p>
+<figure>
+<img src="04-customers-vehicles/images/customers.png" alt="客戶列表" />
+<figcaption aria-hidden="true">客戶列表</figcaption>
+</figure>
+<ul>
+<li>欄位:姓名、手機、<strong>車牌</strong>(同客戶多台車會並列顯示)、維修次數。</li>
+<li>搜尋框輸入<strong>姓名、手機或車牌</strong>皆可找到客戶;頂部全域搜尋也支援相同條件。</li>
+</ul>
+<h2 id="客戶資料與名下車輛">4.2 客戶資料與名下車輛</h2>
+<p>點「編輯」進入客戶資料:</p>
+<figure>
+<img src="04-customers-vehicles/images/customer-edit.png"
+alt="客戶編輯" />
+<figcaption aria-hidden="true">客戶編輯</figcaption>
+</figure>
+<ul>
+<li>基本資料:姓名、手機、市話、Email、地址、生日、LINE
+ID、內部備注。</li>
+<li>下方「<strong>車輛</strong>」區直接管理該客戶名下所有車(新增車輛、編輯、檢視維修次數)。</li>
+<li>「<strong>備注</strong>」區記錄客戶相關的注意事項(誰寫的、何時寫的都會留存)。</li>
+</ul>
+<h2 id="車輛列表">4.3 車輛列表</h2>
+<p>左側選單點「<strong>車輛</strong>」可瀏覽所有車:</p>
+<figure>
+<img src="04-customers-vehicles/images/vehicles.png" alt="車輛列表" />
+<figcaption aria-hidden="true">車輛列表</figcaption>
+</figure>
+<ul>
+<li>欄位:車牌、車主、車主手機、類型(機車/汽車)、廠牌、車型、里程、維修次數。</li>
+<li>可依<strong>類型</strong>與<strong>廠牌</strong>篩選;搜尋支援車牌、車主姓名、手機。</li>
+<li>車輛資料包含:車牌、廠牌、車型、年份、排氣量、顏色、車身號碼、引擎號碼、最新里程,並可上傳<strong>車輛照片</strong>。</li>
+</ul>
+<h1 id="零件">05 零件</h1>
+<p>左側選單點「<strong>零件</strong>」管理零件目錄:</p>
+<figure>
+<img src="05-parts/images/parts.png" alt="零件列表" />
+<figcaption aria-hidden="true">零件列表</figcaption>
+</figure>
+<ul>
+<li>欄位:料號、品名、規格、單位、成本、售價、庫存。</li>
+<li>建立維修單時選擇零件,會<strong>自動帶入品名、售價與成本</strong>,加快開單速度。</li>
+<li>常用耗材(機油、煞車皮、濾芯…)建議先建檔;一次性的特殊零件也可以不建檔,直接在維修項目打名稱即可。</li>
+<li>零件可上傳圖片、填寫說明,並指定所屬店家。</li>
+</ul>
+<h1 id="基礎資料">06 基礎資料</h1>
+<h2 id="廠牌">6.1 廠牌</h2>
+<p>「<strong>廠牌</strong>」維護車輛廠牌(YAMAHA、HONDA、SYM…),類型分機車/汽車/其他,供車輛建檔時選用。</p>
+<figure>
+<img src="06-settings/images/brands.png" alt="廠牌列表" />
+<figcaption aria-hidden="true">廠牌列表</figcaption>
+</figure>
+<h2 id="店家">6.2 店家</h2>
+<p>「<strong>店家</strong>」維護門市資料:店名、電話、地址、統一編號、Logo。這些資訊會印在<strong>估價單抬頭</strong>上。</p>
+<figure>
+<img src="06-settings/images/stores.png" alt="店家列表" />
+<figcaption aria-hidden="true">店家列表</figcaption>
+</figure>
+<h2 id="店家支出">6.3 店家支出</h2>
+<p>「<strong>店家支出</strong>」記錄房租、水電等營業成本,日後產出損益報表使用。</p>
+<figure>
+<img src="06-settings/images/expenses.png" alt="店家支出" />
+<figcaption aria-hidden="true">店家支出</figcaption>
+</figure>
+<h2 id="員工帳號">6.4 員工帳號</h2>
+<p>「<strong>員工</strong>」由管理員維護登入帳號:</p>
+<figure>
+<img src="06-settings/images/users.png" alt="員工列表" />
+<figcaption aria-hidden="true">員工列表</figcaption>
+</figure>
+<ul>
+<li>角色:<strong>管理員</strong>(全部功能)/
+<strong>一般員工</strong>。</li>
+<li>新增員工時設定姓名、Email(即登入帳號)、密碼、所屬店家。</li>
+<li>編輯時密碼欄留空代表不變更;要重設密碼直接輸入新密碼儲存即可。</li>
+</ul>
+<h1 id="前台網站">07 前台網站</h1>
+<p>前台 <strong><a href="https://main.motoranger.net"
+class="uri">https://main.motoranger.net</a></strong>
+是對外形象頁與維修動態看板,不需登入。</p>
+<h2 id="首頁">7.1 首頁</h2>
+<figure>
+<img src="07-front-site/images/home-hero.png" alt="前台首頁" />
+<figcaption aria-hidden="true">前台首頁</figcaption>
+</figure>
+<ul>
+<li>品牌標語與功能介紹。</li>
+<li>右上角「<strong>店家登入</strong>」即進入後台(<code>/admin</code>)。</li>
+</ul>
+<h2 id="維修動態">7.2 維修動態</h2>
+<p>首頁下方公開展示目前的維修狀況:</p>
+<figure>
+<img src="07-front-site/images/home-cards.png" alt="維修動態" />
+<figcaption aria-hidden="true">維修動態</figcaption>
+</figure>
+<ul>
+<li><strong>維修中</strong>(紅色標籤)與<strong>維修完成</strong>(綠色標籤)各顯示最新
+8 筆。</li>
+<li>卡片內容:車輛照片、單號、車牌、維修人員、進廠日期。</li>
+<li><strong>隱私保護</strong>:客戶姓名一律打碼只顯示姓氏(例:王**),不會洩漏個資。</li>
+</ul>
+</body></html>

@@ -7,6 +7,16 @@ use Illuminate\Support\Facades\Route;
 // 前台首頁
 Route::get('/', [FrontController::class, 'home'])->name('home');
 
+// 本地開發專用:供文件截圖工具快速登入(僅 local 環境存在)
+if (app()->environment('local')) {
+    Route::get('/dev-login', function () {
+        auth()->login(\App\Models\User::where('email', 'admin@motoranger.test')->firstOrFail());
+        session()->regenerate();
+
+        return redirect('/admin');
+    });
+}
+
 // 估價單列印(後台人員)
 Route::get('/repair-orders/{repairOrder}/quote', RepairOrderQuoteController::class)
     ->middleware('auth')

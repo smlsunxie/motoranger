@@ -19,6 +19,8 @@ class VehiclesRelationManager extends RelationManager
 
     protected static ?string $title = '車輛';
 
+    protected static ?string $modelLabel = '車輛';
+
     public function form(Schema $schema): Schema
     {
         return $schema
