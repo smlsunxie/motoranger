@@ -26,7 +26,7 @@ return new class extends Migration
         // 員工(後台登入者)— 擴充 Laravel 預設 users
         Schema::table('users', function (Blueprint $table) {
             $table->foreignId('store_id')->nullable()->after('id')->constrained()->nullOnDelete();
-            $table->string('role')->default('operator')->after('password'); // admin / manager / operator
+            $table->string('role')->default('user')->after('password'); // admin / user
             $table->string('phone')->nullable()->after('role');
         });
 
