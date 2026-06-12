@@ -99,6 +99,9 @@ class MigrateLegacyData extends Command
         return DB::connection(self::SRC);
     }
 
+    /** @var array<string, string>|null 小寫路徑 → 實際路徑(Linux 大小寫敏感,舊資料大小寫不一致) */
+    protected ?array $imageIndex = null;
+
     /** 舊圖檔位置:attachment/{domain name}/{file},已同步至 public disk 的 legacy/ */
     protected function legacyImage(?string $ownerName, ?string $file): ?string
     {
@@ -106,9 +109,16 @@ class MigrateLegacyData extends Command
             return null;
         }
 
-        $path = "legacy/attachment/{$ownerName}/{$file}";
+        if ($this->imageIndex === null) {
+            $this->imageIndex = [];
+            $base = storage_path('app/public');
+            foreach (glob("{$base}/legacy/attachment/*/*") ?: [] as $actual) {
+                $relative = substr($actual, strlen($base) + 1);
+                $this->imageIndex[strtolower($relative)] = $relative;
+            }
+        }
 
-        return file_exists(storage_path("app/public/{$path}")) ? $path : null;
+        return $this->imageIndex[strtolower("legacy/attachment/{$ownerName}/{$file}")] ?? null;
     }
 
     protected function migrateStores(): void

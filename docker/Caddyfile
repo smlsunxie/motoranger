@@ -1,0 +1,8 @@
+{
+	email smlsun@gmail.com
+}
+
+main.motoranger.net {
+	encode zstd gzip
+	reverse_proxy app:8000
+}

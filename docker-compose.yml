@@ -1,9 +1,22 @@
 services:
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - app
+    restart: unless-stopped
+
   app:
     build: .
     ports:
       - "${APP_PORT:-8000}:8000"
-    environment: &app-env
+    environment:
       APP_NAME: Motoranger
       APP_ENV: production
       APP_KEY: ${APP_KEY}
@@ -14,41 +27,14 @@ services:
       DB_DATABASE: motoranger
       DB_USERNAME: motoranger
       DB_PASSWORD: ${DB_PASSWORD:-secret}
-      CACHE_STORE: redis
-      SESSION_DRIVER: redis
-      QUEUE_CONNECTION: redis
-      REDIS_HOST: redis
+      CACHE_STORE: database
+      SESSION_DRIVER: database
+      QUEUE_CONNECTION: sync
     volumes:
       - storage-data:/app/storage/app
     depends_on:
       mysql:
         condition: service_healthy
-      redis:
-        condition: service_started
-    restart: unless-stopped
-
-  queue:
-    build: .
-    command: php artisan queue:work --tries=3 --timeout=90
-    environment:
-      <<: *app-env
-      AUTO_MIGRATE: "false"
-    volumes:
-      - storage-data:/app/storage/app
-    depends_on:
-      - app
-    restart: unless-stopped
-
-  scheduler:
-    build: .
-    command: php artisan schedule:work
-    environment:
-      <<: *app-env
-      AUTO_MIGRATE: "false"
-    volumes:
-      - storage-data:/app/storage/app
-    depends_on:
-      - app
     restart: unless-stopped
 
   mysql:
@@ -67,13 +53,8 @@ services:
       retries: 10
     restart: unless-stopped
 
-  redis:
-    image: redis:7-alpine
-    volumes:
-      - redis-data:/data
-    restart: unless-stopped
-
 volumes:
   storage-data:
   mysql-data:
-  redis-data:
+  caddy-data:
+  caddy-config:
