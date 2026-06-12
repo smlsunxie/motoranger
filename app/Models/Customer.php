@@ -43,4 +43,12 @@ class Customer extends Model
     {
         return $this->morphMany(Note::class, 'notable')->latest();
     }
+
+    /** 前台公開顯示用:只露姓氏 */
+    public function getMaskedNameAttribute(): string
+    {
+        $name = trim($this->name ?? '');
+
+        return $name === '' ? '****' : mb_substr($name, 0, 1).'**';
+    }
 }

@@ -1,11 +1,11 @@
 <?php
 
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\RepairOrderQuoteController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return redirect('/admin');
-});
+// 前台首頁
+Route::get('/', [FrontController::class, 'home'])->name('home');
 
 // 估價單列印(後台人員)
 Route::get('/repair-orders/{repairOrder}/quote', RepairOrderQuoteController::class)
