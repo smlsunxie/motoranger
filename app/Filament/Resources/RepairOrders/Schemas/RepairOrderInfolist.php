@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources\RepairOrders\Schemas;
 
-use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\ViewEntry;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
@@ -39,6 +39,11 @@ class RepairOrderInfolist
                                 TextEntry::make('type')->label('類型')->badge()->columnSpan(2),
                                 TextEntry::make('qty')->label('數量')->columnSpan(2),
                                 TextEntry::make('price')->label('單價')->formatStateUsing($money)->columnSpan(3),
+                                ViewEntry::make('item_photos')
+                                    ->hiddenLabel()
+                                    ->columnSpanFull()
+                                    ->view('filament.infolists.photo-gallery')
+                                    ->visible(fn ($record) => $record->photos()->exists()),
                             ]),
                     ]),
 
@@ -54,10 +59,9 @@ class RepairOrderInfolist
                 Section::make('現場照片')
                     ->visible(fn ($record) => $record->photos()->exists())
                     ->schema([
-                        ImageEntry::make('photos.path')
+                        ViewEntry::make('photos')
                             ->hiddenLabel()
-                            ->disk('public')
-                            ->state(fn ($record) => $record->photos->pluck('path')->all()),
+                            ->view('filament.infolists.photo-gallery'),
                     ]),
             ]);
     }
