@@ -3,6 +3,9 @@
 namespace App\Filament\Resources\Customers\RelationManagers;
 
 use App\Enums\VehicleType;
+use App\Filament\Resources\Vehicles\VehicleResource;
+use App\Models\Vehicle;
+use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -71,7 +74,12 @@ class VehiclesRelationManager extends RelationManager
             ->headerActions([
                 CreateAction::make()->label('新增車輛'),
             ])
+            ->recordUrl(fn (Vehicle $record) => VehicleResource::getUrl('profile', ['record' => $record]))
             ->recordActions([
+                Action::make('view')
+                    ->label('檢視')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn (Vehicle $record) => VehicleResource::getUrl('profile', ['record' => $record])),
                 EditAction::make(),
                 DeleteAction::make(),
             ]);

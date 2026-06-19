@@ -114,7 +114,7 @@ class AdminSmokeTest extends TestCase
         $this->actingAs($this->admin);
 
         $customer = Customer::create(['name' => '陳大文', 'mobile' => '0922333444']);
-        Vehicle::create(['customer_id' => $customer->id, 'plate_no' => 'CUST-CAR-1']);
+        $vehicle = Vehicle::create(['customer_id' => $customer->id, 'plate_no' => 'CUST-CAR-1']);
 
         // 檢視頁可開啟,顯示客戶資料與編輯按鈕
         $this->get(CustomerResource::getUrl('view', ['record' => $customer]))
@@ -123,12 +123,13 @@ class AdminSmokeTest extends TestCase
             ->assertSee('0922333444')
             ->assertSee('編輯');
 
-        // 關聯車輛由 VehiclesRelationManager 呈現
+        // 關聯車輛由 VehiclesRelationManager 呈現,且可連到車輛檔案頁
         Livewire::test(VehiclesRelationManager::class, [
             'ownerRecord' => $customer,
             'pageClass' => ViewCustomer::class,
         ])
-            ->assertSee('CUST-CAR-1');
+            ->assertSee('CUST-CAR-1')
+            ->assertSee(VehicleResource::getUrl('profile', ['record' => $vehicle]), false);
     }
 
     public function test_repair_order_view_page_renders_with_edit(): void
