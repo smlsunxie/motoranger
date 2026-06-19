@@ -94,7 +94,7 @@
                         {{-- 左:單據摘要 --}}
                         <div class="md:col-span-4">
                             <div class="flex items-center gap-2">
-                                <a href="{{ \App\Filament\Resources\RepairOrders\RepairOrderResource::getUrl('edit', ['record' => $order]) }}"
+                                <a href="{{ \App\Filament\Resources\RepairOrders\RepairOrderResource::getUrl('view', ['record' => $order]) }}"
                                    class="font-semibold text-primary-600 hover:underline dark:text-primary-400">
                                     {{ $order->order_no }}
                                 </a>

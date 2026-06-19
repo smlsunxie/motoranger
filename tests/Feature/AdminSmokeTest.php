@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\UserRole;
 use App\Filament\Resources\RepairOrders\Pages\CreateRepairOrder;
+use App\Filament\Resources\RepairOrders\RepairOrderResource;
 use App\Filament\Resources\Vehicles\Pages\CreateVehicle;
 use App\Filament\Resources\Vehicles\Pages\VehicleProfile;
 use App\Filament\Resources\Vehicles\VehicleResource;
@@ -102,6 +103,22 @@ class AdminSmokeTest extends TestCase
             ->assertSee('建立維修紀錄')
             ->assertSee('重拍車輛圖')
             // 每筆維修紀錄有列印估價單連結
+            ->assertSee(route('repair-orders.quote', $order), false);
+    }
+
+    public function test_repair_order_view_page_renders_with_edit(): void
+    {
+        $this->actingAs($this->admin);
+
+        $vehicle = Vehicle::create(['plate_no' => 'VIEW-1']);
+        $order = RepairOrder::create(['vehicle_id' => $vehicle->id, 'date' => today(), 'user_id' => $this->admin->id]);
+        $order->items()->create(['name' => '換胎', 'qty' => 1, 'price' => 800]);
+
+        $this->get(RepairOrderResource::getUrl('view', ['record' => $order]))
+            ->assertOk()
+            ->assertSee($order->order_no)
+            ->assertSee('換胎')
+            ->assertSee('編輯')
             ->assertSee(route('repair-orders.quote', $order), false);
     }
 

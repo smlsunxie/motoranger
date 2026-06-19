@@ -6,8 +6,10 @@ use App\Filament\RelationManagers\NotesRelationManager;
 use App\Filament\Resources\RepairOrders\Pages\CreateRepairOrder;
 use App\Filament\Resources\RepairOrders\Pages\EditRepairOrder;
 use App\Filament\Resources\RepairOrders\Pages\ListRepairOrders;
+use App\Filament\Resources\RepairOrders\Pages\ViewRepairOrder;
 use App\Filament\Resources\RepairOrders\RelationManagers\PaymentsRelationManager;
 use App\Filament\Resources\RepairOrders\Schemas\RepairOrderForm;
+use App\Filament\Resources\RepairOrders\Schemas\RepairOrderInfolist;
 use App\Filament\Resources\RepairOrders\Tables\RepairOrdersTable;
 use App\Models\RepairOrder;
 use BackedEnum;
@@ -37,6 +39,11 @@ class RepairOrderResource extends Resource
         return RepairOrderForm::configure($schema);
     }
 
+    public static function infolist(Schema $schema): Schema
+    {
+        return RepairOrderInfolist::configure($schema);
+    }
+
     public static function table(Table $table): Table
     {
         return RepairOrdersTable::configure($table);
@@ -55,6 +62,7 @@ class RepairOrderResource extends Resource
         return [
             'index' => ListRepairOrders::route('/'),
             'create' => CreateRepairOrder::route('/create'),
+            'view' => ViewRepairOrder::route('/{record}'),
             'edit' => EditRepairOrder::route('/{record}/edit'),
         ];
     }

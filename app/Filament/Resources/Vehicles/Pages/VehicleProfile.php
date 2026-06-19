@@ -177,7 +177,7 @@ class VehicleProfile extends Page
 
                     Notification::make()->title("維修單 {$order->order_no} 已建立")->success()->send();
 
-                    return redirect(RepairOrderResource::getUrl('edit', ['record' => $order]));
+                    return redirect(RepairOrderResource::getUrl('view', ['record' => $order]));
                 }),
 
             $this->rephotoAction(),
