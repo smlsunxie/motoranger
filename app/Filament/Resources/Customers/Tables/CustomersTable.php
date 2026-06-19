@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\Customers\Tables;
 
+use App\Filament\Resources\Customers\CustomerResource;
+use App\Models\Customer;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
@@ -46,8 +48,12 @@ class CustomersTable
             ->filters([
                 TrashedFilter::make(),
             ])
+            ->recordUrl(fn (Customer $record) => CustomerResource::getUrl('view', ['record' => $record]))
             ->recordActions([
-                EditAction::make(),
+                Action::make('view')
+                    ->label('檢視')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn (Customer $record) => CustomerResource::getUrl('view', ['record' => $record])),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

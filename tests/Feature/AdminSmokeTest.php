@@ -3,6 +3,9 @@
 namespace Tests\Feature;
 
 use App\Enums\UserRole;
+use App\Filament\Resources\Customers\CustomerResource;
+use App\Filament\Resources\Customers\Pages\ViewCustomer;
+use App\Filament\Resources\Customers\RelationManagers\VehiclesRelationManager;
 use App\Filament\Resources\RepairOrders\Pages\CreateRepairOrder;
 use App\Filament\Resources\RepairOrders\RepairOrderResource;
 use App\Filament\Resources\Vehicles\Pages\CreateVehicle;
@@ -104,6 +107,28 @@ class AdminSmokeTest extends TestCase
             ->assertSee('重拍車輛圖')
             // 每筆維修紀錄有列印估價單連結
             ->assertSee(route('repair-orders.quote', $order), false);
+    }
+
+    public function test_customer_view_page_shows_vehicles(): void
+    {
+        $this->actingAs($this->admin);
+
+        $customer = Customer::create(['name' => '陳大文', 'mobile' => '0922333444']);
+        Vehicle::create(['customer_id' => $customer->id, 'plate_no' => 'CUST-CAR-1']);
+
+        // 檢視頁可開啟,顯示客戶資料與編輯按鈕
+        $this->get(CustomerResource::getUrl('view', ['record' => $customer]))
+            ->assertOk()
+            ->assertSee('陳大文')
+            ->assertSee('0922333444')
+            ->assertSee('編輯');
+
+        // 關聯車輛由 VehiclesRelationManager 呈現
+        Livewire::test(VehiclesRelationManager::class, [
+            'ownerRecord' => $customer,
+            'pageClass' => ViewCustomer::class,
+        ])
+            ->assertSee('CUST-CAR-1');
     }
 
     public function test_repair_order_view_page_renders_with_edit(): void
