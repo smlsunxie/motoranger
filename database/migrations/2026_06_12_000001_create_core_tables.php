@@ -65,7 +65,7 @@ return new class extends Migration
             $table->string('type')->default('motorcycle');   // motorcycle / car / other
             $table->string('plate_no')->index();             // 車牌號碼(搜尋主鍵)
             $table->string('model')->nullable();             // 車型
-            $table->unsignedSmallInteger('year')->nullable();// 出廠年份
+            $table->unsignedSmallInteger('year')->nullable(); // 出廠年份
             $table->unsignedInteger('cc')->nullable();       // 排氣量
             $table->string('color')->nullable();
             $table->string('vin')->nullable();               // 車身號碼

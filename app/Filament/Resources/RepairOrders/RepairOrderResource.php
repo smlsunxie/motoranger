@@ -2,10 +2,10 @@
 
 namespace App\Filament\Resources\RepairOrders;
 
+use App\Filament\RelationManagers\NotesRelationManager;
 use App\Filament\Resources\RepairOrders\Pages\CreateRepairOrder;
 use App\Filament\Resources\RepairOrders\Pages\EditRepairOrder;
 use App\Filament\Resources\RepairOrders\Pages\ListRepairOrders;
-use App\Filament\RelationManagers\NotesRelationManager;
 use App\Filament\Resources\RepairOrders\RelationManagers\PaymentsRelationManager;
 use App\Filament\Resources\RepairOrders\Schemas\RepairOrderForm;
 use App\Filament\Resources\RepairOrders\Tables\RepairOrdersTable;

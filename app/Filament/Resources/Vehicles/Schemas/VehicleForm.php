@@ -25,11 +25,11 @@ class VehicleForm
                     ->schema([
                         Select::make('customer_id')
                             ->label('車主')
+                            ->helperText('可不填,之後再補登。')
                             ->relationship('customer', 'name')
                             ->getOptionLabelFromRecordUsing(fn ($record) => trim("{$record->name} {$record->mobile}"))
                             ->searchable(['name', 'mobile'])
-                            ->preload()
-                            ->required(),
+                            ->preload(),
                         TextInput::make('plate_no')
                             ->label('車牌號碼')
                             ->required(),

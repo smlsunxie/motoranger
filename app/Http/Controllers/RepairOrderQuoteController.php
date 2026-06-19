@@ -43,6 +43,7 @@ class RepairOrderQuoteController extends Controller
     public function addNote(RepairOrder $repairOrder)
     {
         abort_unless(request()->hasValidRelativeSignature(), 403);
+        abort_unless($repairOrder->customer !== null, 403);
 
         $data = request()->validate([
             'content' => ['required', 'string', 'max:1000'],

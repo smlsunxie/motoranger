@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\RepairItemType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class RepairOrderItem extends Model
 {
@@ -36,5 +37,10 @@ class RepairOrderItem extends Model
     public function part(): BelongsTo
     {
         return $this->belongsTo(Part::class);
+    }
+
+    public function photos(): MorphMany
+    {
+        return $this->morphMany(Photo::class, 'imageable');
     }
 }

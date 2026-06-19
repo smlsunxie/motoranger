@@ -68,8 +68,8 @@
 </div>
 
 <div class="info-grid">
-    <div><span class="label">客戶</span>{{ $order->customer->name }}</div>
-    <div><span class="label">聯絡電話</span>{{ $order->customer->mobile ?? $order->customer->phone }}</div>
+    <div><span class="label">客戶</span>{{ $order->customer?->name ?? '—' }}</div>
+    <div><span class="label">聯絡電話</span>{{ $order->customer?->mobile ?? $order->customer?->phone ?? '—' }}</div>
     <div><span class="label">車牌</span>{{ $order->vehicle->plate_no }}</div>
     <div><span class="label">車輛</span>{{ trim(($order->vehicle->brand?->name ?? '').' '.$order->vehicle->model) }}</div>
     <div><span class="label">進廠里程</span>{{ number_format($order->mileage) }} km</div>

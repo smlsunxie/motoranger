@@ -3,9 +3,11 @@
 namespace App\Filament\Resources\Vehicles\Tables;
 
 use App\Enums\VehicleType;
+use App\Filament\Resources\Vehicles\VehicleResource;
+use App\Models\Vehicle;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
@@ -58,8 +60,12 @@ class VehiclesTable
                     ->relationship('brand', 'name'),
                 TrashedFilter::make(),
             ])
+            ->recordUrl(fn (Vehicle $record) => VehicleResource::getUrl('profile', ['record' => $record]))
             ->recordActions([
-                EditAction::make(),
+                Action::make('view')
+                    ->label('檢視')
+                    ->icon('heroicon-o-eye')
+                    ->url(fn (Vehicle $record) => VehicleResource::getUrl('profile', ['record' => $record])),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

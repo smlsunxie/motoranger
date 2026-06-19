@@ -6,6 +6,7 @@ use App\Enums\VehicleType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -35,6 +36,11 @@ class Vehicle extends Model
     public function repairOrders(): HasMany
     {
         return $this->hasMany(RepairOrder::class);
+    }
+
+    public function latestRepairOrder(): HasOne
+    {
+        return $this->hasOne(RepairOrder::class)->latestOfMany('date');
     }
 
     public function photos(): MorphMany

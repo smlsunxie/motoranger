@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -94,7 +95,7 @@ class MigrateLegacyData extends Command
         return self::SUCCESS;
     }
 
-    protected function src(): \Illuminate\Database\Connection
+    protected function src(): Connection
     {
         return DB::connection(self::SRC);
     }
